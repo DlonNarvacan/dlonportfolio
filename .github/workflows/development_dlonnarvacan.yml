@@ -35,6 +35,10 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Archive production artifacts
+        run: |
+          zip -r release.zip .
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -51,5 +55,5 @@ jobs:
         with:
           app-name: "dlonnarvacan"
           slot-name: "Production"
-          package: .
+          package: "./release.zip"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90C3B66C95134C8F8E1A76A8422DE037 }}
