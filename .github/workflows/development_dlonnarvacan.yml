@@ -39,6 +39,12 @@ jobs:
         run: |
           zip -r release.zip .
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: release.zip
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -48,6 +54,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: release
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
